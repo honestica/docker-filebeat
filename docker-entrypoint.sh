@@ -13,7 +13,7 @@ if [ "$1" = 'start' ]; then
   }
 
   getRunningContainers() {
-    curl --no-buffer -s -XGET --unix-socket /tmp/docker.sock http:/containers/json | python -c "
+    curl --no-buffer -s -XGET --unix-socket /tmp/docker.sock http:/v1.26/containers/json | python -c "
 import json, sys
 containers=json.loads(sys.stdin.readline())
 for container in containers:
@@ -22,7 +22,7 @@ for container in containers:
   }
 
   getContainerName() {
-    curl --no-buffer -s -XGET --unix-socket /tmp/docker.sock http:/containers/$1/json | python -c "
+    curl --no-buffer -s -XGET --unix-socket /tmp/docker.sock http:/v1.26/containers/$1/json | python -c "
 import json, sys
 container=json.loads(sys.stdin.readline())
 print(container['Name'])
@@ -42,7 +42,7 @@ print(container['Name'])
     echo "Processing $CONTAINER..."
     createContainerFile $CONTAINER
     CONTAINER_NAME=`getContainerName $CONTAINER`
-    curl -s --no-buffer -XGET --unix-socket /tmp/docker.sock "http:/containers/$CONTAINER/logs?stderr=1&stdout=1&tail=1&follow=1" | sed "s;^;[$CONTAINER_NAME] ;" > $NAMED_PIPE
+    curl -s --no-buffer -XGET --unix-socket /tmp/docker.sock "http:/v1.26/containers/$CONTAINER/logs?stderr=1&stdout=1&tail=1&follow=1" | sed "s;^;[$CONTAINER_NAME] ;" > $NAMED_PIPE
     echo "Disconnected from $CONTAINER."
     removeContainerFile $CONTAINER
   }
