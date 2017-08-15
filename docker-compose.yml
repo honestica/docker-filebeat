@@ -6,4 +6,4 @@ filebeat:
   environment:
    - LOGSTASH_HOST=logstash.localdomain
    - LOGSTASH_PORT=5044
-   - SHIPPER_NAME=aWonderfulName
+   - FILEBEAT_HOST=aWonderfulName

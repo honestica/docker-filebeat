@@ -61,10 +61,10 @@ print(container['Name'])
     exit 1
   fi
 
-  if [ -n "${SHIPPER_NAME+1}" ]; then
-    setConfiguration "SHIPPER_NAME" "$SHIPPER_NAME"
+  if [ -n "${FILEBEAT_HOST+1}" ]; then
+    setConfiguration "FILEBEAT_HOST" "$FILEBEAT_HOST"
   else
-    setConfiguration "SHIPPER_NAME" "`hostname`"
+    setConfiguration "FILEBEAT_HOST" "`hostname`"
   fi
 
   rm -rf "$CONTAINERS_FOLDER"

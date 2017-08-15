@@ -46,15 +46,24 @@ filebeat:
 
       # Optional additional fields. These field can be freely picked
       # to add additional information to the crawled log files for filtering
-      #fields:
+      fields:
+        host: ${FILEBEAT_HOST:${HOSTNAME}}
       #  level: debug
       #  review: 1
+
+      json:
+        message_key: log
+        keys_under_root: true
+        add_error_key: true
+      multiline:
+        pattern: '^\s'
+        match: after
 
       # Set to true to store the additional fields as top level fields instead
       # of under the "fields" sub-dictionary. In case of name conflicts with the
       # fields added by Filebeat itself, the custom fields overwrite the default
       # fields.
-      #fields_under_root: false
+      fields_under_root: true
 
       # Ignore files which were modified more then the defined timespan in the past
       # Time strings like 2h (2 hours), 5m (5 minutes) can be used.
@@ -324,7 +333,7 @@ shipper:
   # The name of the shipper that publishes the network data. It can be used to group
   # all the transactions sent by a single shipper in the web interface.
   # If this options is not defined, the hostname is used.
-  name: {{SHIPPER_NAME}}
+  name: {{FILEBEAT_HOST}}
 
   # The tags of the shipper are included in their own field with each
   # transaction published. Tags make it easy to group servers by different

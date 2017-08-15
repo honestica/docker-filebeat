@@ -17,14 +17,14 @@ Start Filebeat as follows:
 ```
 $ docker run -d 
    -v /var/run/docker.sock:/tmp/docker.sock 
-   -e LOGSTASH_HOST=monitoring.xyz -e LOGSTASH_PORT=5044 -e SHIPPER_NAME=$(hostname) 
+   -e LOGSTASH_HOST=monitoring.xyz -e LOGSTASH_PORT=5044 -e FILEBEAT_HOST=$(hostname) 
    bargenson/filebeat
 ```
 
 Three environment variables are needed:
 * `LOGSTASH_HOST`: to specify on which server runs your Logstash
 * `LOGSTASH_PORT`: to specify on which port listens your Logstash for beats inputs
-* `SHIPPER_NAME`: to specify the Filebeat shipper name (deafult: the container ID) 
+* `FILEBEAT_HOST`: to specify the Filebeat shipper name (deafult: the container ID) 
 
 The docker-compose service definition should look as follows:
 ```
@@ -36,7 +36,7 @@ filebeat:
   environment:
    - LOGSTASH_HOST=monitoring.xyz
    - LOGSTASH_PORT=5044
-   - SHIPPER_NAME=aWonderfulName
+   - FILEBEAT_HOST=aWonderfulName
 ```
 
 
