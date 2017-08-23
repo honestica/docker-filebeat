@@ -24,9 +24,6 @@ RUN     apk add --update python curl && \
 	/usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8
 
 RUN     curl -sL ${FILEBEAT_URL} | tar xz -C .
-ADD     filebeat.yml ${FILEBEAT_HOME}/
-ADD     docker-entrypoint.sh    /entrypoint.sh
-RUN     chmod +x /entrypoint.sh
+ADD     filebeat.yml /opt/
 
-ENTRYPOINT  ["/entrypoint.sh"]
-CMD         ["start"]
+CMD ["/usr/local/bin/filebeat", "-e", "-c", "/opt/filebeat.yml"]
