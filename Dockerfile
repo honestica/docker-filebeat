@@ -11,7 +11,6 @@ ENV     FILEBEAT_URL https://artifacts.elastic.co/downloads/beats/filebeat/fileb
 # Environment variables
 ENV     FILEBEAT_HOME /opt/filebeat-${FILEBEAT_VERSION}-linux-x86_64
 ENV     PATH $PATH:${FILEBEAT_HOME}
-ENV     FILEBEAT_HOST localhost
 
 WORKDIR /opt/
 
@@ -24,6 +23,7 @@ RUN     apk add --update python curl && \
 	/usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8
 
 RUN     curl -sL ${FILEBEAT_URL} | tar xz -C .
+RUN 	ln -s ${FILEBEAT_HOME}/filebeat /usr/local/bin
 ADD     filebeat.yml /opt/
 
-CMD ["/usr/local/bin/filebeat", "-e", "-c", "/opt/filebeat.yml"]
+CMD ["filebeat","-e", "-c", "/opt/filebeat.yml"]
